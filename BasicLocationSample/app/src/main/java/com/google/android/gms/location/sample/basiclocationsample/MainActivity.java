@@ -16,18 +16,23 @@
 
 package com.google.android.gms.location.sample.basiclocationsample;
 
+import android.app.Activity;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+
+//import android.support.v7.app.ActionBarActivity;
 
 /**
  * Location sample.
@@ -37,11 +42,11 @@ import com.google.android.gms.location.LocationServices;
  * See https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart if you are
  * also using APIs that need authentication.
  */
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
     protected static final String TAG = "basic-location-sample";
-
+    private static  final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     /**
      * Provides the entry point to Google Play services.
      */
@@ -55,6 +60,10 @@ public class MainActivity extends ActionBarActivity implements
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
 
+
+    private LocationManager locationManager;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +72,11 @@ public class MainActivity extends ActionBarActivity implements
         mLatitudeText = (TextView) findViewById((R.id.latitude_text));
         mLongitudeText = (TextView) findViewById((R.id.longitude_text));
 
-        buildGoogleApiClient();
+//        if (checkPlayServices()){
+//            buildGoogleApiClient();
+//        }
+
+
     }
 
     /**
@@ -75,20 +88,40 @@ public class MainActivity extends ActionBarActivity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+//        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
+    }
+
+
+    private boolean checkPlayServices(){
+        int rstCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (rstCode != ConnectionResult.SUCCESS){
+            if (GooglePlayServicesUtil.isUserRecoverableError(rstCode)){
+                GooglePlayServicesUtil.getErrorDialog(rstCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }else{
+                Toast.makeText(this, "Not support Play Services.", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Not support Play Services");
+                finish();
+            }
+            return false;
         }
+        Toast.makeText(this, "support Play Services.", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "support Play Services");
+        return true;
     }
 
     /**
@@ -100,6 +133,12 @@ public class MainActivity extends ActionBarActivity implements
         // applications that do not require a fine-grained location and that do not need location
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
+        if (mGoogleApiClient == null){
+            Toast.makeText(this, "mGoogleApiClient is null.", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "mGoogleApiClient not null.", Toast.LENGTH_LONG).show();
+        }
+
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
@@ -123,5 +162,22 @@ public class MainActivity extends ActionBarActivity implements
         // attempt to re-establish the connection.
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
+    }
+
+
+    /**
+     * Get last location by LocationManager.
+     */
+    private Location getLatestLocation(){
+
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null){
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        return location;
+    }
+
+    public void bt_into_location_manager_click(View view){
+        LocationActivity.actionStart(this);
     }
 }

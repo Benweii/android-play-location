@@ -24,4 +24,7 @@
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
     </string>
+    <string name="title_activity_location">LocationActivity</string>
+
+    <string name="bt_into_location_manager">Into Location Manager</string>
 </resources>
