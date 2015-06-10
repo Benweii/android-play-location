@@ -20,6 +20,7 @@
 
     <string name="latitude_label">Latitude: </string>
     <string name="longitude_label">Longitude: </string>
+    <string name="position_text">未定位</string>
 
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.

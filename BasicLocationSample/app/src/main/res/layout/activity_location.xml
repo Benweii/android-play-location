@@ -48,4 +48,22 @@
         android:layout_marginTop="@dimen/text_margin"
         android:textSize="@dimen/lat_long_text_size"/>
 
+    <TextView
+        android:id="@+id/position_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/longitude_text"
+        android:layout_marginTop="@dimen/text_margin"
+        android:textSize="@dimen/lat_long_text_size"
+        android:text="@string/position_text"/>
+
+    <TextView
+        android:id="@+id/province_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/position_text"
+        android:layout_marginTop="@dimen/text_margin"
+        android:textSize="@dimen/lat_long_text_size"
+        android:text="@string/position_text"/>
+
 </RelativeLayout>
