@@ -27,5 +27,9 @@
     </string>
     <string name="title_activity_location">LocationActivity</string>
 
-    <string name="bt_into_location_manager">Into Location Manager</string>
+    <string name="bt_location_by_google">登陆</string>
+    <string name="bt_location_by_baidu">Location By Baidu</string>
+    <string name="title_activity_location_by_baidui">LocationByBaiduiActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

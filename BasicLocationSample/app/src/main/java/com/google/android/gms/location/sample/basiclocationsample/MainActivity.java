@@ -177,7 +177,12 @@ public class MainActivity extends Activity implements
         return location;
     }
 
-    public void bt_into_location_manager_click(View view){
-        LocationActivity.actionStart(this);
+    public void bt_location_by_google(View view){
+        LocationByGoogleActivity.actionStart(this);
+    }
+
+    public void bt_location_by_baidu(View view) {
+        LocationByBaiduiActivity.actionStart(this);
     }
 }
+
